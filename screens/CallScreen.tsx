@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   StatusBar,
   useColorScheme,
+  Linking,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -216,7 +217,9 @@ const CallItem = ({ item }) => {
       </View>
 
       {/* Call Button */}
-      <TouchableOpacity style={styles.callButton}>
+      <TouchableOpacity style={styles.callButton} onPress={()=>{
+        Linking.openURL(`whatsapp://send?phone=${"+919942148933"}`)
+      }}>
         <Ionicons name="call-outline" size={24} color={colorScheme==='dark'?'white':'black'} />
       </TouchableOpacity>
     </TouchableOpacity>

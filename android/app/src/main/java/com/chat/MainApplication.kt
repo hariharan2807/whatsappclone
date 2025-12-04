@@ -1,4 +1,4 @@
-package com.qrscaner
+package com.chat
 
 import android.app.Application
 import com.facebook.react.PackageList
