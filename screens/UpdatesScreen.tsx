@@ -544,7 +544,7 @@ export default function UpdatesScreen() {
           <View style={styles.avatarContainer}>
             <Image source={{ uri: item.avatar }} style={styles.avatar} />
             <View style={styles.addButton}>
-              <Ionicons name="add-circle" size={24} color="#25D366" />
+              <Ionicons name="add-circle" size={24} color="green" />
             </View>
           </View>
           <View style={styles.statusInfo}>
@@ -763,7 +763,7 @@ const styles = StyleSheet.create({
     height: 56,
     borderRadius: 28,
     borderWidth: 2,
-    borderColor: '#25D366',
+    borderColor: 'green',
   },
   viewedAvatar: {
     borderColor: '#999',
@@ -782,7 +782,7 @@ const styles = StyleSheet.create({
     width: 12,
     height: 12,
     borderRadius: 6,
-    backgroundColor: '#25D366',
+    backgroundColor: 'green',
     borderWidth: 2,
     borderColor: 'white',
   },
@@ -833,7 +833,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 20,
     right: 20,
-    backgroundColor: '#25D366',
+    backgroundColor: 'green',
     width: 56,
     height: 56,
     borderRadius: 28,

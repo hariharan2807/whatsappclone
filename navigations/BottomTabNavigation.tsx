@@ -1,7 +1,7 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import CustomBottomTab from '../components/atoms/CustomBottomTab';
-import { Home, Cart, User, Update } from './StackNavigations';
+import {  Update, Communities, Call, Chats } from './StackNavigations';
 
 const BottomTab = createBottomTabNavigator();
 
@@ -13,11 +13,10 @@ export default function BottomTabNavigation() {
       screenOptions={config}
       tabBar={props => <CustomBottomTab {...props} />}
     >
-      <BottomTab.Screen name="Chats" component={Home} />
+      <BottomTab.Screen name="Chats" component={Chats} />
       <BottomTab.Screen name="Updates" component={Update} />
-      {/* <BottomTab.Screen name="My Order" component={AllOrdersScreen} /> */}
-      <BottomTab.Screen name="Communities" component={Cart} />
-      <BottomTab.Screen name="Calls" component={User} />
+      <BottomTab.Screen name="Communities" component={Communities} />
+      <BottomTab.Screen name="Calls" component={Call} />
     </BottomTab.Navigator>
   );
 }

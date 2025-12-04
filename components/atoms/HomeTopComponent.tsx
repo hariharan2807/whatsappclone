@@ -18,7 +18,7 @@ const navigation =useNavigation();
       <View style={[tailwind(''), { width: '70%' }]}>
         <Text
           style={[
-            tailwind('font-20 '),
+            tailwind('font-20 font-bold'),
             { color: Color === 'dark' ? 'white' : 'green' },
           ]}
         >

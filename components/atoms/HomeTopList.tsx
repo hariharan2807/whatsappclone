@@ -27,6 +27,7 @@ export default function HomeTopList(props: any) {
     <TouchableOpacity
       onPress={() => {
         props?.setValue(props?.i);
+        props?.setSearchText('')
       }}
       style={[
         tailwind('ml-3 px-1 my-1 rounded-full items-center '),

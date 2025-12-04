@@ -1,7 +1,12 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import { HomeScreen, UpdatesScreen } from '../screens';
-
+import {
+  CallScreen,
+  CommunitiesScreen,
+  HomeScreen,
+  SearchScreen,
+  UpdatesScreen,
+} from '../screens';
 
 // const StackConfig = {headerShown: false, animation: 'none'};
 
@@ -13,37 +18,47 @@ const AuthStack = createNativeStackNavigator();
 const PickUpStack = createNativeStackNavigator();
 const PreOrderStack = createNativeStackNavigator();
 
-export function Home(props: any) {
+export function Chats(props: any) {
   return (
-    <HomeStack.Navigator screenOptions={{headerShown:false,animation:"none"}}>
+    <HomeStack.Navigator
+      screenOptions={{ headerShown: false, animation: 'none' }}
+      // initialRouteName="HomeScreen"
+    >
       <HomeStack.Screen name="HomeScreen" component={HomeScreen} />
-     
+      {/* <HomeStack.Screen name="SearchScreen" component={SearchScreen} /> */}
     </HomeStack.Navigator>
   );
 }
 export function Update(props: any) {
   return (
-    <PreOrderStack.Navigator screenOptions={{headerShown:false,animation:"none"}}>
+    <PreOrderStack.Navigator
+      screenOptions={{ headerShown: false, animation: 'none' }}
+      initialRouteName="UpdatesScreen"
+    >
       <PreOrderStack.Screen name="UpdatesScreen" component={UpdatesScreen} />
-</PreOrderStack.Navigator>
+    </PreOrderStack.Navigator>
   );
 }
-export function Cart(props: any) {
+export function Communities(props: any) {
   return (
-    <CartStack.Navigator screenOptions={{headerShown:false,animation:"none"}}>
-      <CartStack.Screen name="HomeScreen" component={HomeScreen}  />
-   </CartStack.Navigator>
+    <CartStack.Navigator
+      screenOptions={{ headerShown: false, animation: 'none' }}
+      initialRouteName="CommunitiesScreen"
+    >
+      <CartStack.Screen
+        name="CommunitiesScreen"
+        component={CommunitiesScreen}
+      />
+    </CartStack.Navigator>
   );
 }
-export function User(props: any) {
+export function Call(props: any) {
   return (
     <UserStack.Navigator
-      initialRouteName="HomeScreen"
-      screenOptions={{headerShown:false,animation:"none"}}>
-      <UserStack.Screen
-       name="HomeScreen" component={HomeScreen} 
-      />
-     
+      initialRouteName="CallScreen"
+      screenOptions={{ headerShown: false, animation: 'none' }}
+    >
+      <UserStack.Screen name="CallScreen" component={CallScreen} />
     </UserStack.Navigator>
   );
 }

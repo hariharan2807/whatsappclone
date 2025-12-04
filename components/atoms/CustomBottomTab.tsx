@@ -107,7 +107,7 @@ export default function CustomBottomTab({
             onPress={onPress}
             style={{ flex: 1 }}
           >
-            <View style={tailwind('flex items-center mt-2')}>
+            <View style={tailwind('flex items-center my-2')}>
               {/* {index === 3 && CartState?.length > 0 ? (
                 <View
                   style={[

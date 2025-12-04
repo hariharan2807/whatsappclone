@@ -22,8 +22,12 @@ import {
 import {
   SafeAreaProvider,
   useSafeAreaInsets,
+  SafeAreaView,
 } from 'react-native-safe-area-context';
 import React from 'react';
+import { SafeAreaView as RNSafeAreaView } from 'react-native';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+
 // import QRCodeScanner from 'react-native-qrcode-scanner';
 // import { RNCamera } from 'react-native-camera';
 // import { check, PERMISSIONS, RESULTS, request } from 'react-native-permissions';
@@ -55,41 +59,34 @@ function App() {
     // })
   };
   return (
-    <SafeAreaProvider>
+    <>
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={isDarkMode ? 'black' : 'white'}
+        backgroundColor={
+          Platform.OS === 'android'
+            ? isDarkMode
+              ? 'black'
+              : 'white'
+            : 'transparent'
+        }
+        translucent={Platform.OS === 'android' ? false : true}
       />
-      <RootNavigation />
-      {/* <View style={styles.page}>
-        {qrCode && !showQR ? (
-          <Text style={{ fontSize: 16, color: 'black' }}>
-            {'QR Value \n' + qrCode}
-          </Text>
-        ) : null}
-        {!showQR ? (
-          <View style={{ width: '100%', alignItems: 'center' }}>
-            <Image
-              source={require('./assets/image/scanner.png')}
-              style={{ height: 200, width: 200 }}
-            />
-            <TouchableOpacity
-              onPress={() => openQRscanner()}
-              style={styles.btn}
-            >
-              <Text
-                style={[tailwind('text-secondary')]}
-                // style={{ color: clr1 }}
-              >
-                Scan QR
-              </Text>
-            </TouchableOpacity>
-          </View>
-        ) : null}
-
-        {showQR ? <QRScanner onRead={onQrRead} /> : null}
-      </View> */}
-    </SafeAreaProvider>
+     {Platform.OS === 'android' ? (
+                <GestureHandlerRootView style={{flex: 1}}>
+                  {/* <SafeAreaView style={{flex: 0, backgroundColor: '#49A600'}} /> */}
+                  <SafeAreaView style={{flex: 1}}>
+                    <RootNavigation />
+                  </SafeAreaView>
+                </GestureHandlerRootView>
+            ) : (
+                <GestureHandlerRootView style={{flex: 1}}>
+                  {/* <SafeAreaView style={{flex: 0, backgroundColor: '#49A600'}} /> */}
+                  <RNSafeAreaView style={{flex: 1}}>
+                    <RootNavigation />
+                  </RNSafeAreaView>
+                </GestureHandlerRootView>
+            )}
+    </>
   );
 }
 

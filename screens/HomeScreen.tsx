@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import tailwind from '@tailwind';
 import {
   FlatList,
@@ -19,6 +19,7 @@ import assets_manifest from '@assets';
 
 export default function HomeScreen() {
   const Color = useColorScheme();
+  const [searchText, setSearchText] = useState('');
   const List = [
     { name: 'All', id: 0 },
     { name: 'Unread', id: 1 },
@@ -96,6 +97,42 @@ export default function HomeScreen() {
       group: 1,
     },
   ];
+  const filteredUsers = useMemo(() => {
+    let result = UserList;
+
+    // First, apply category filter based on selected tab
+    switch (value?.id) {
+      case 0: // All
+        result = UserList;
+        break;
+      case 1: // Unread
+        result = UserList.filter(user => user.unread > 0);
+        break;
+      case 2: // Favorites
+        result = UserList.filter(user => user.isfav === 1);
+        break;
+      case 3: // Groups
+        result = UserList.filter(user => user.group === 1);
+        break;
+      default:
+        result = UserList;
+    }
+
+    // Then apply search filter if there's search text
+    if (searchText.trim() !== '') {
+      const searchLower = searchText.toLowerCase();
+      result = result.filter(user => {
+        const nameMatch = user.name.toLowerCase().includes(searchLower);
+        const messageMatch = user.message.toLowerCase().includes(searchLower);
+        return nameMatch || messageMatch;
+      });
+    }
+
+    return result;
+  }, [searchText, value, UserList]);
+  const handleSearch = text => {
+    setSearchText(text);
+  };
   const renderContent = () => {
     switch (value?.id) {
       case 0:
@@ -287,6 +324,7 @@ export default function HomeScreen() {
         flexDirection: 'row',
         // padding: 10,
         paddingVertical: 10,
+        paddingHorizontal: 10,
         // borderBottomWidth: 0.5,
         // borderBottomColor: '#E0E0E0',
         backgroundColor: Color === 'dark' ? 'black' : 'white',
@@ -298,8 +336,8 @@ export default function HomeScreen() {
         <Image
           source={{ uri: item.profile_img }}
           style={{
-            width: 45,
-            height: 45,
+            width: 50,
+            height: 50,
             borderRadius: 55 / 2,
             backgroundColor: '#E0E0E0',
           }}
@@ -334,7 +372,7 @@ export default function HomeScreen() {
         >
           <Text
             style={{
-              fontSize: 12,
+              fontSize: 14,
               fontWeight: '600',
               color: Color === 'dark' ? 'white' : 'black',
               flex: 1,
@@ -398,6 +436,48 @@ export default function HomeScreen() {
       </View>
     </TouchableOpacity>
   );
+  const renderEmptyState = () => {
+    // If there's search text and no results
+    if (searchText.trim() !== '' && filteredUsers.length === 0) {
+      return (
+        <View style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          paddingTop: 50,
+        }}>
+          <Image
+            style={{ height: 100, width: 100, marginBottom: 20 }}
+            resizeMode="contain"
+            source={assets_manifest?.search} // or use a no-results icon
+            tintColor={Color === 'dark' ? '#8d9296' : '#63676a'}
+          />
+          <Text style={{
+            color: Color === 'dark' ? 'white' : 'black',
+            fontSize: 18,
+            fontWeight: 'bold',
+            marginBottom: 8,
+          }}>
+            No results found
+          </Text>
+          <Text style={{
+            color: Color === 'dark' ? '#8d9296' : '#63676a',
+            fontSize: 14,
+            textAlign: 'center',
+          }}>
+            No matches for "{searchText}"
+          </Text>
+          <Text style={{
+            color: Color === 'dark' ? '#8d9296' : '#63676a',
+            fontSize: 14,
+            textAlign: 'center',
+          }}>
+            Try a different search
+          </Text>
+        </View>
+      );
+    }
+  }
   return (
     <View
       style={[
@@ -406,7 +486,11 @@ export default function HomeScreen() {
       ]}
     >
       <HomeTopComponent />
-      <HomeSearchComponent />
+      <HomeSearchComponent
+        onSearch={handleSearch}
+        searchText={searchText}
+        setSearchText={setSearchText}
+      />
       <View style={[tailwind('flex-row')]}>
         {List?.map((i: any, index: any) => {
           return (
@@ -416,14 +500,23 @@ export default function HomeScreen() {
                 setValue={setValue}
                 value={value}
                 UserList={UserList}
+                setSearchText={setSearchText}
               />
             </View>
           );
         })}
       </View>
       {/* <ScrollView style={tailwind('h-full')}> */}
-      {renderContent()}
-
+      {filteredUsers.length > 0 ? (
+          <FlatList
+            data={filteredUsers}
+            renderItem={renderUserItem}
+            keyExtractor={item => item.id.toString()}
+            showsVerticalScrollIndicator={false}
+          />
+        ) : (
+          renderEmptyState()
+        )}
       {/* </ScrollView> */}
     </View>
   );
